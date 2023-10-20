@@ -5,7 +5,7 @@
  * @info: info struct
  * @path: path to the file
  *
- * Return: 1 if true, 0 otherwise
+ * Return: return 1 if true, 0 else
  */
 int is_cmd(info_t *info, char *path)
 {
@@ -25,8 +25,8 @@ int is_cmd(info_t *info, char *path)
 /**
  * dup_chars - the program duplicates char
  * @pathstr: the PATH str
- * @start: start index
- * @stop: stop index
+ * @start: the start index
+ * @stop: the stop index
  *
  * Return: pointer to new buffer
  */

@@ -6,7 +6,7 @@
  * @str: str field of node
  * @num: node index used history
  *
- * Return: size of list
+ * Return: return size of list
  */
 list_t *add_node(list_t **head, const char *str, int num)
 {
@@ -39,7 +39,7 @@ list_t *add_node(list_t **head, const char *str, int num)
  * @str: str field of node
  * @num: node index used history
  *
- * Return: list of size
+ * Return: return list of size
  */
 list_t *add_node_end(list_t **head, const char *str, int num)
 {
@@ -78,7 +78,7 @@ list_t *add_node_end(list_t **head, const char *str, int num)
  * print_list_str - program to prints only str element list_t linked list
  * @h: pointer to first node
  *
- * Return: size of list
+ * Return: return size of list
  */
 size_t print_list_str(const list_t *h)
 {
@@ -99,7 +99,7 @@ size_t print_list_str(const list_t *h)
  * @head: pointer to first node
  * @index: node to delete
  *
- * Return: 1 on success, 0 on failure
+ * Return: 1 on success, else 0 on failure
  */
 int delete_node_at_index(list_t **head, unsigned int index)
 {

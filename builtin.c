@@ -1,85 +1,96 @@
 #include "shell.h"
 
 /**
- *_eputs - the program prints an input str
- * @str: the str to be printed
- *
- * Return: Nothing
+ * _myexit - program exits the shell
+ * @info: Structure contain arg. maintain func prototype
+ * constant func prototype.
+ * Return: given exit status return exit
+ * (0) if info.argv[0] != "exit"
  */
-void _eputs(char *str)
+int _myexit(info_t *info)
 {
-	int i = 0;
+	int exitcheck;
 
-	if (!str)
-		return;
-	while (str[i] != '\0')
+	if (info->argv[1]) /* If there is an exit arguement */
 	{
-		_eputchar(str[i]);
-		i++;
+		exitcheck = _erratoi(info->argv[1]);
+		if (exitcheck == -1)
+		{
+			info->status = 2;
+			print_error(info, "Illegal number: ");
+			_eputs(info->argv[1]);
+			_eputchar('\n');
+			return (1);
+		}
+		info->err_num = _erratoi(info->argv[1]);
+		return (-2);
 	}
+	info->err_num = -1;
+	return (-2);
 }
 
 /**
- * _eputchar - the program write the character c to stderr
- * @c: The char to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set.
+ * _mycd -  this program changes current directory
+ * @info: struct contain potential arg.for prototype
+ * Return: return Always 0
  */
-int _eputchar(char c)
+int _mycd(info_t *info)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	char *s, *dir, buffer[1024];
+	int chdir_ret;
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	s = getcwd(buffer, 1024);
+	if (!s)
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+	if (!info->argv[1])
 	{
-		write(2, buf, i);
-		i = 0;
+		dir = _getenv(info, "HOME=");
+		if (!dir)
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+		else
+			chdir_ret = chdir(dir);
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
+	else if (_strcmp(info->argv[1], "-") == 0)
+	{
+		if (!_getenv(info, "OLDPWD="))
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+	}
+	else
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
+	{
+		print_error(info, "can't cd to ");
+		_eputs(info->argv[1]), _eputchar('\n');
+	}
+	else
+	{
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
+	}
+	return (0);
 }
 
 /**
- * _putfd - the program write the char c to given fd
- * @c: The char to print
- * @fd: The filedescriptor to write to
- *
- * Return: On success 1.
- * On error, -1 is returned from the prog, and errno is set appropriately.
+ * _myhelp - the program changes current directory of process
+ * @info: Structure contain potential arg. Used to maintain
+ * constant func prototype.
+ * Return: return Always 0
  */
-int _putfd(char c, int fd)
+int _myhelp(info_t *info)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	char **arg_array;
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
-	{
-		write(fd, buf, i);
-		i = 0;
-	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
-}
-
-/**
- *_putsfd - the program prints an input string
- * @str: the string to be printed
- * @fd: filedescriptor to write to
- *
- * Return: the numb of chars put
- */
-int _putsfd(char *str, int fd)
-{
-	int i = 0;
-
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		i += _putfd(*str++, fd);
-	}
-	return (i);
+	arg_array = info->argv;
+	_puts("help call works. Function not yet implemented \n");
+	if (0)
+		_puts(*arg_array); /* temp att_unused workaround */
+	return (0);
 }

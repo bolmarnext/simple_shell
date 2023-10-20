@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * interactive - The returns true if shell is interactive mode
- * @info: he struct address
+ * interactive - program returns code true if the shell is in interactive mode
+ * @info: structure address
  *
- * Return: The program return 1 if interactive mode, 0 otherwise
+ * Return: if interactive in mode return 1, 0 else
  */
 int interactive(info_t *info)
 {
@@ -12,10 +12,10 @@ int interactive(info_t *info)
 }
 
 /**
- * is_delim - The check if char is a delimeter
- * @c: the character to check
- * @delim: the delimeter str
- * Return: The programme return 1 if true or 0 if its false
+ * is_delim - the program checks if a char is a delimiter
+ * @c: char to check
+ * @delim: delimiter str
+ * Return: if true return 1, but if false return 0
  */
 int is_delim(char c, char *delim)
 {
@@ -26,11 +26,10 @@ int is_delim(char c, char *delim)
 }
 
 /**
- *_isalpha - To check for alphabetic char
- *@c: The char to the input
- *Return: 1 if the letter c is alphabetic, 0 then otherwise
+ * _isalpha - checks for an alphabetic char
+ * @c: The char to input
+ * Return: if c is alphabetic return 1, else return 0
  */
-
 int _isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -40,17 +39,16 @@ int _isalpha(int c)
 }
 
 /**
- *_atoi - To converts a string to an int
- *@s: And string to be converted
- *Return: 0 if no numb in str, converted numb then otherwise
+ * _atoi - converts the str to an int
+ * @s: str to converted
+ * Return: if no numb in str return 0, then converted numb
  */
-
 int _atoi(char *s)
 {
 	int i, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
-	for (i = 0;  s[i] != '\0' && flag != 2; i++)
+	for (i = 0; s[i] != '\0' && flag != 2; i++)
 	{
 		if (s[i] == '-')
 			sign *= -1;

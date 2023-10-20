@@ -4,7 +4,7 @@
  * get_history_file - the program gets the history file
  * @info: parameter struct
  *
- * Return: allocated str contain history file
+ * Return: allocated str cont history file
  */
 
 char *get_history_file(info_t *info)
@@ -25,10 +25,10 @@ char *get_history_file(info_t *info)
 }
 
 /**
- * write_history - the program creates a file, or appends existing file
+ * write_history - the program creates a file, or appends to existing file
  * @info: parameter struct
  *
- * Return: 1 on success, else -1
+ * Return: 1 on success, otherwise -1
  */
 int write_history(info_t *info)
 {
@@ -54,10 +54,10 @@ int write_history(info_t *info)
 }
 
 /**
- * read_history - the program reads histor file
+ * read_history - the program reads history from file
  * @info: parameter struct
  *
- * Return: histcount on success, 0 otherwise
+ * Return: histcount on success, 0 else
  */
 int read_history(info_t *info)
 {
@@ -104,11 +104,11 @@ int read_history(info_t *info)
 
 /**
  * build_history_list - the program adds entry history linked list
- * @info: Structure contain potential arg. Used to maintain
- * @buf: buffer
+ * @info: Structure cont potential arg. maintain
+ * @buf: the buffer
  * @linecount: history linecount, histcount
  *
- * Return: Always 0
+ * Return: return Always 0
  */
 int build_history_list(info_t *info, char *buf, int linecount)
 {
@@ -124,10 +124,10 @@ int build_history_list(info_t *info, char *buf, int linecount)
 }
 
 /**
- * renumber_history - the program renumb history linked list after changes
- * @info: Structure contain potential arg. Used to maintain
+ * renumber_history - program renumb history linked list after changes
+ * @info: Structure cont potential arg. maintain
  *
- * Return: new histcount
+ * Return: return new histcount
  */
 int renumber_history(info_t *info)
 {

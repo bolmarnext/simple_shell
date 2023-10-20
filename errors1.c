@@ -1,154 +1,140 @@
 #include "shell.h"
 
 /**
- * is_chain - the program test if current char in buffer is a chain delimeter
- * @info: parameter struct
- * @buf: char buffer
- * @p: address of current position in buf
- *
- * Return: 1 if chain delimeter, 0 otherwise
+ * _erratoi - the program converts a str to an int
+ * @s: the str to be converted
+ * Return: 0 if no numb in str, converted numb else
+ *       -1 on error
  */
-int is_chain(info_t *info, char *buf, size_t *p)
-{
-	size_t j = *p;
-
-	if (buf[j] == '|' && buf[j + 1] == '|')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_OR;
-	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_AND;
-	}
-	else if (buf[j] == ';') /* found end of the command */
-	{
-		buf[j] = 0; /* replace semicolon with null */
-		info->cmd_buf_type = CMD_CHAIN;
-	}
-	else
-		return (0);
-	*p = j;
-	return (1);
-}
-
-/**
- * check_chain - the program check chaining based on last status
- * @info: parameter struct
- * @buf: char buffer
- * @p: address of current position in buf
- * @i: start position in buf
- * @len: the length of buf
- *
- * Return: Void
- */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
-{
-	size_t j = *p;
-
-	if (info->cmd_buf_type == CMD_AND)
-	{
-		if (info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
-	if (info->cmd_buf_type == CMD_OR)
-	{
-		if (!info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
-
-	*p = j;
-}
-
-/**
- * replace_alias - rethe program places an aliases in tokenized str
- * @info: parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int replace_alias(info_t *info)
-{
-	int i;
-	list_t *node;
-	char *p;
-
-	for (i = 0; i < 10; i++)
-	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
-		if (!node)
-			return (0);
-		free(info->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return (0);
-		p = _strdup(p + 1);
-		if (!p)
-			return (0);
-		info->argv[0] = p;
-	}
-	return (1);
-}
-
-/**
- * replace_vars - the program replace vars in tokenized str
- * @info: parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int replace_vars(info_t *info)
+int _erratoi(char *s)
 {
 	int i = 0;
-	list_t *node;
+	unsigned long int result = 0;
 
-	for (i = 0; info->argv[i]; i++)
+	if (*s == '+')
+		s++;  /* TODO: why does this make main return 255? */
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
-			continue;
-
-		if (!_strcmp(info->argv[i], "$?"))
+		if (s[i] >= '0' && s[i] <= '9')
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)));
-			continue;
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
+				return (-1);
 		}
-		if (!_strcmp(info->argv[i], "$$"))
-		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
-			continue;
-		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
-		if (node)
-		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
-			continue;
-		}
-		replace_string(&info->argv[i], _strdup(""));
-
+		else
+			return (-1);
 	}
-	return (0);
+	return (result);
 }
 
 /**
- * replace_string - the  program replaces str
- * @old: to address of old str
- * @new: the new str
- *
- * Return: 1 if replaced, 0 otherwise
+ * print_error - program prints an error message
+ * @info: parameter & return info struct
+ * @estr: str contain specified error type
+ * Return: 0 if no numb in str, converted numb else
+ *        -1 on error
  */
-int replace_string(char **old, char *new)
+void print_error(info_t *info, char *estr)
 {
-	free(*old);
-	*old = new;
-	return (1);
+	_eputs(info->fname);
+	_eputs(": ");
+	print_d(info->line_count, STDERR_FILENO);
+	_eputs(": ");
+	_eputs(info->argv[0]);
+	_eputs(": ");
+	_eputs(estr);
+}
+
+/**
+ * print_d - the func prints a decimal (int) numb (base 10)
+ * @input: input
+ * @fd: filedescriptor to write to
+ *
+ * Return: numb of char printed
+ */
+int print_d(int input, int fd)
+{
+	int (*__putchar)(char) = _putchar;
+	int i, count = 0;
+	unsigned int _abs_, current;
+
+	if (fd == STDERR_FILENO)
+		__putchar = _eputchar;
+	if (input < 0)
+	{
+		_abs_ = -input;
+		__putchar('-');
+		count++;
+	}
+	else
+		_abs_ = input;
+	current = _abs_;
+	for (i = 1000000000; i > 1; i /= 10)
+	{
+		if (_abs_ / i)
+		{
+			__putchar('0' + current / i);
+			count++;
+		}
+		current %= i;
+	}
+	__putchar('0' + current);
+	count++;
+
+	return (count);
+}
+
+/**
+ * convert_number - the program converter func, a clone of itoa
+ * @num: numb
+ * @base: base
+ * @flags: arg flags
+ *
+ * Return: return str
+ */
+char *convert_number(long int num, int base, int flags)
+{
+	static char *array;
+	static char buffer[50];
+	char sign = 0;
+	char *ptr;
+	unsigned long n = num;
+
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	{
+		n = -num;
+		sign = '-';
+
+	}
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	ptr = &buffer[49];
+	*ptr = '\0';
+
+	do	{
+		*--ptr = array[n % base];
+		n /= base;
+	} while (n != 0);
+
+	if (sign)
+		*--ptr = sign;
+	return (ptr);
+}
+
+/**
+ * remove_comments - this func replaces first instance of '#' with '\0'
+ * @buf: address of str to modify
+ *
+ * Return: return Always 0;
+ */
+void remove_comments(char *buf)
+{
+	int i;
+
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+		{
+			buf[i] = '\0';
+			break;
+		}
 }

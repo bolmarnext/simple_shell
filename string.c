@@ -4,7 +4,7 @@
  * _strlen - the program returns length of a str
  * @s: the str whose length to check
  *
- * Return: integer length of string
+ * Return: int length of str
  */
 int _strlen(char *s)
 {

@@ -12,22 +12,22 @@
 #include <fcntl.h>
 #include <errno.h>
 
-/* for read/write buffers */
+/* to read/write buffers */
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
-/* for command chaining */
+/* to command chaining */
 #define CMD_NORM	0
 #define CMD_OR		1
 #define CMD_AND		2
 #define CMD_CHAIN	3
 
-/* for convert_number() */
+/* to convert_number() */
 #define CONVERT_LOWERCASE	1
 #define CONVERT_UNSIGNED	2
 
-/* 1 if using system getline() */
+/* 1 if using the system getline() */
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
@@ -51,26 +51,26 @@ typedef struct liststr
 } list_t;
 
 /**
- *struct passinfo - the contains pseudo-arguements to pass into a function,
- *		allowing uniform prototype for function pointer struct
- *@arg: a string generated from getline containing arguements
+ *struct passinfo - this contains pseudo-arg to pass into a funct,
+ *		allowing uniform prototype for funct pointer struct
+ *@arg: a str generated from getline cont arg
  *@argv: an array of str generated from arg
- *@path: a string path for the current command
+ *@path: a str path for current command
  *@argc: the arg count
- *@line_count: the error count
- *@err_num: the error code for exit()s
+ *@line_count: error count
+ *@err_num: error code for exit()s
  *@linecount_flag: if on count this line of input
- *@fname: the program filename
+ *@fname: program filename
  *@env: linked list local copy of environ
  *@environ: custom modified copy of environ from LL env
- *@history: the history node
- *@alias: the alias node
+ *@history: history node
+ *@alias: alias node
  *@env_changed: on if environ was changed
- *@status: the return status of the last exec'd command
+ *@status: return status of the last exec'd command
  *@cmd_buf: address of pointer to cmd_buf, on if chaining
  *@cmd_buf_type: CMD_type ||, &&, ;
  *@readfd: the fd from which to read line input
- *@histcount: the history line number count
+ *@histcount: the history line numb count
  */
 typedef struct passinfo
 {
@@ -102,7 +102,7 @@ typedef struct passinfo
 /**
  *struct builtin - the program contains a builtin str and related funct
  *@type: builtin command flag
- *@func: function
+ *@func: funct
  */
 typedef struct builtin
 {

@@ -1,62 +1,74 @@
 #include "shell.h"
 
 /**
- **_memset -the program  fills memory with a constant byte
- *@s: the pointer to the memory area
- *@b: the byte to fill *s with
- *@n: the amount of bytes to filled
- *Return: (s) pointer to the memory area s
+ **_strncpy - this program copies a str
+ *@dest: destination str to be copied to
+ *@src: source str
+ *@n: amount of char to be copied
+ *Return: concatenated str
  */
-char *_memset(char *s, char b, unsigned int n)
+char *_strncpy(char *dest, char *src, int n)
 {
-	unsigned int i;
+	int i, j;
+	char *s = dest;
 
-	for (i = 0; i < n; i++)
-		s[i] = b;
+	i = 0;
+	while (src[i] != '\0' && i < n - 1)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	if (i < n)
+	{
+		j = i;
+		while (j < n)
+		{
+			dest[j] = '\0';
+			j++;
+		}
+	}
 	return (s);
 }
 
 /**
- * ffree - the program frees a str of str
- * @pp: str of str
+ **_strncat - the program concatenates two str
+ *@dest: first str
+ *@src: second str
+ *@n: amount of bytes to maximally used
+ *Return: concatenated str
  */
-void ffree(char **pp)
+char *_strncat(char *dest, char *src, int n)
 {
-	char **a = pp;
+	int i, j;
+	char *s = dest;
 
-	if (!pp)
-		return;
-	while (*pp)
-		free(*pp++);
-	free(a);
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0')
+		i++;
+	while (src[j] != '\0' && j < n)
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	if (j < n)
+		dest[i] = '\0';
+	return (s);
 }
 
 /**
- * _realloc - the program reallocates a block of memory
- * @ptr: to pointer to previous malloc'ated block
- * @old_size: byte size of previous block
- * @new_size: byte size of new block
- *
- * Return: the pointer to da ol'block nameen.
+ **_strchr - the program locates a char in a str
+ *@s: str to be parsed
+ *@c: char to look for
+ *Return: (s) a pointer to the memory area s
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+char *_strchr(char *s, char c)
 {
-	char *p;
+	do {
+		if (*s == c)
+			return (s);
+	} while (*s++ != '\0');
 
-	if (!ptr)
-		return (malloc(new_size));
-	if (!new_size)
-		return (free(ptr), NULL);
-	if (new_size == old_size)
-		return (ptr);
-
-	p = malloc(new_size);
-	if (!p)
-		return (NULL);
-
-	old_size = old_size < new_size ? old_size : new_size;
-	while (old_size--)
-		p[old_size] = ((char *)ptr)[old_size];
-	free(ptr);
-	return (p);
+	return (NULL);
 }

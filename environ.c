@@ -1,10 +1,9 @@
 #include "shell.h"
 
 /**
- * _myenv - the program prints the current environment
- * @info: The Structure containing potential arguments. Used to maintain
- *          const funct prototype.
- * Return: Always 0
+ * _myenv -  this program prints current environ
+ * @info: struct contai potential arg.to maintain constant func prototype.
+ * Return: return Always 0
  */
 int _myenv(info_t *info)
 {
@@ -13,33 +12,32 @@ int _myenv(info_t *info)
 }
 
 /**
- * _getenv - the program gets the value of an environ variable
- * @info: The Structure containing potential arguments. Used to maintain
- * @name: the env var name
+ * _getenv - the program gets value of environ variable
+ * @info:  struct contain potential arg.
+ * @name: env var name
  *
- * Return: value
+ * Return: return the value
  */
 char *_getenv(info_t *info, const char *name)
 {
 	list_t *node = info->env;
-	char *p;
+	char *q;
 
 	while (node)
 	{
-		p = starts_with(node->str, name);
-		if (p && *p)
-			return (p);
+		q = starts_with(node->str, name);
+		if (q && *q)
+			return (q);
 		node = node->next;
 	}
 	return (NULL);
 }
 
 /**
- * _mysetenv - The program Initialize a new environment variable,
- *             or modify an existing one
- * @info: The Structure containing potential arguments. Used to maintain
- *        const funct prototype.
- *  Return: Always 0
+ * _mysetenv -  this program Initialize a new environ variable,
+ *             or modify existing one
+ * @info: struct contain potential arg.
+ *  Return: return Always 0
  */
 int _mysetenv(info_t *info)
 {
@@ -54,10 +52,9 @@ int _mysetenv(info_t *info)
 }
 
 /**
- * _myunsetenv - The program Remove an environment variable
- * @info: The Structure containing potential arguments. Used to maintain
- *        const funct prototype.
- *  Return: Always 0
+ * _myunsetenv -  this remove an environment variable
+ * @info: struct contain potential arg. maintain func prototype.
+ * Return: return Always 0
  */
 int _myunsetenv(info_t *info)
 {
@@ -75,10 +72,9 @@ int _myunsetenv(info_t *info)
 }
 
 /**
- * populate_env_list - the populate env linked list
- * @info: The Structure containing potential arguments. Used to maintain
- *          const funct prototype.
- * Return: Always 0
+ * populate_env_list - the program populates env linked list
+ * @info: this structure contain potential arg
+ * Return: return Always 0
  */
 int populate_env_list(info_t *info)
 {

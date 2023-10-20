@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * is_chain - the program test if current char in buffer chain delimeter
- * @info: parameter struct
- * @buf: char buffer
- * @p: address of current position in buf
+ * is_chain - Test if the current character in the buffer is a chain delimiter.
+ * @info: The parameter struct.
+ * @buf: The character buffer.
+ * @p: Address of the current position in buf.
  *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Return: 1 if it's a chain delimiter, 0 otherwise.
  */
 int is_chain(info_t *info, char *buf, size_t *p)
 {
@@ -24,9 +24,9 @@ int is_chain(info_t *info, char *buf, size_t *p)
 		j++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (buf[j] == ';') /* Found the end of this command */
 	{
-		buf[j] = 0; /* replace semicolon with null */
+		buf[j] = 0; /* Replace semicolon with null */
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
@@ -36,14 +36,14 @@ int is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * check_chain - the program checks should continue chain based on last status
- * @info: parameter struct
- * @buf: char buffer
- * @p: address of current position in buf
- * @i: start position in buf
- * @len: length of buf
+ * check_chain - this program Checks continue chaining based on last status.
+ * @info: parameter struct.
+ * @buf: char buffer.
+ * @p: Address of the current position in buf.
+ * @i: Start position in buf.
+ * @len: Length of buf.
  *
- * Return: return Void
+ * Return: return Void.
  */
 void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
@@ -70,10 +70,10 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * replace_alias - the program replaces an aliases in tokenized str
- * @info: the parameter struct
+ * replace_alias - the program Replaces aliases in tokenized string.
+ * @info: parameter struct.
  *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced, 0 else.
  */
 int replace_alias(info_t *info)
 {
@@ -99,10 +99,10 @@ int replace_alias(info_t *info)
 }
 
 /**
- * replace_vars - the program replaces vars tokenized str
- * @info: parameter struct
+ * replace_vars - the program Replaces variables in tokenized string.
+ * @info: The parameter struct.
  *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced, 0 else.
  */
 int replace_vars(info_t *info)
 {
@@ -134,17 +134,16 @@ int replace_vars(info_t *info)
 			continue;
 		}
 		replace_string(&info->argv[i], _strdup(""));
-
 	}
 	return (0);
 }
 
 /**
- * replace_string - the program replaces str
- * @old: address of old str
- * @new: str
+ * replace_string - the program Replaces a str
+ * @old: Address of the old str
+ * @new: New str.
  *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced, 0 else.
  */
 int replace_string(char **old, char *new)
 {

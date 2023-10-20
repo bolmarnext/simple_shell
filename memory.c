@@ -4,7 +4,7 @@
  * bfree - the program frees a pointer and NULLs the address
  * @ptr: address of pointer to free
  *
- * Return: 1 if freed, otherwise 0.
+ * Return: return 1 if freed, else 0.
  */
 int bfree(void **ptr)
 {
